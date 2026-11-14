@@ -1,0 +1,14 @@
+**
+!requirements.txt
+!server.py
+!public_app.py
+!wsgi.py
+!gunicorn.conf.py
+!map_gateway.py
+!map_jobs.py
+!download_jobs.py
+!source_registry.py
+!transport.py
+!cache_storage.py
+!web/
+!web/**

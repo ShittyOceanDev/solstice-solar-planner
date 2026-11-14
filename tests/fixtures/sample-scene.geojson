@@ -1,0 +1,18 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {"name": "Imported test house", "height": 11},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[13.4005,52.4999],[13.40065,52.4999],[13.40065,52.5],[13.4005,52.5],[13.4005,52.4999]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"name": "Imported test tree", "natural": "tree", "height": 7, "diameter_crown": 4},
+      "geometry": {"type":"Point", "coordinates":[13.4007,52.5001]}
+    }
+  ]
+}

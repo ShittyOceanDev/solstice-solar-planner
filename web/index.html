@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plan a solar installation, model its surroundings in 3D, and estimate generation and payback. Project settings and calculations stay in your browser.">
+  <meta name="theme-color" content="#244b3e"><title>Solstice — your solar outlook</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23244b3e'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23d7ed9a'/%3E%3Cpath d='M32 7v7m0 36v7M7 32h7m36 0h7M14 14l5 5m26 26 5 5M14 50l5-5m26-26 5-5' stroke='%23d7ed9a' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/onboarding.css">
+  <script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
+  <meta name="solstice-build" content="2026.11.14.1">
+  <script type="module" src="/app.js?v=2026.11.14.1"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Solstice home"><span class="brand-icon">☼</span><span>solstice<span class="brand-dot">.</span></span><small>SOLAR PLANNER</small></a>
+    <div class="header-actions"><span class="privacy-badge"><i></i> Project stays in your browser</span><button class="button subtle" id="start-setup">Setup</button><button class="button subtle" id="save-project"><span>↓</span> Save project</button><button class="button subtle" id="open-project">Open project</button><input id="project-file" type="file" accept="application/json,.json" hidden></div>
+  </header>
+  <p class="share-status" id="share-status" role="status" hidden></p>
+  <div class="workspace">
+    <aside class="sidebar">
+      <div class="project-label"><span class="eyebrow">YOUR INSTALLATION</span><span class="autosave" id="save-status">Saved locally</span></div>
+      <nav class="setup-nav" aria-label="Installation settings">
+        <button class="active" data-tab="site"><span>⌂</span> Site & panels <b>01</b></button>
+        <button data-tab="scene"><span>▧</span> Surroundings <b>02</b></button>
+        <button data-tab="energy"><span>ϟ</span> Energy use <b>03</b></button>
+        <button data-tab="costs"><span>€</span> Costs & payback <b>04</b></button>
+        <button data-tab="data"><span>☷</span> Weather & model <b>05</b></button>
+      </nav>
+      <div class="inspector" id="inspector"></div>
+      <div class="sidebar-footer"><span class="small-sun">☼</span><p>A little sunlight.<br>A clearer decision.</p><button id="reset-project" title="Restore example project">Reset example</button></div>
+    </aside>
+    <main>
+      <div class="page-heading"><div><div class="eyebrow">YOUR SOLAR OUTLOOK</div><h1>Let the sun do the maths.</h1><p>Explore your space. Understand your energy. Find your break-even.</p></div><div class="location-pill"><span>◎</span><div id="location-label">Berlin region<small>Approximate location · 0.1° grid</small></div></div></div>
+      <div class="data-banner" id="data-banner"><span class="banner-symbol">◌</span><div><strong>Illustrative weather is active</strong><span>Load real historical weather to calculate your regional outlook.</span></div><button id="banner-weather">Load weather <span>↗</span></button></div>
+      <div class="metrics" aria-live="polite">
+        <article class="metric hero"><div class="metric-label">Estimated payback <span>↗</span></div><div class="metric-value" id="payback">—</div><div class="metric-foot" id="payback-detail">Calculating your outlook…</div><svg class="hero-orbit" viewBox="0 0 150 100"><circle cx="118" cy="98" r="66"/><circle cx="118" cy="98" r="47"/><circle cx="118" cy="98" r="27"/></svg></article>
+        <article class="metric"><div class="metric-label">Annual generation <span class="metric-icon">☼</span></div><div class="metric-value" id="generation">—</div><div class="metric-foot" id="generation-detail">AC electricity after system losses</div></article>
+        <article class="metric"><div class="metric-label">Used in your home <span class="metric-icon">⌂</span></div><div class="metric-value" id="self-consumption">—</div><div class="metric-foot" id="self-detail">Hourly generation matched to usage</div></article>
+        <article class="metric"><div class="metric-label">First-year savings <span class="metric-icon">↗</span></div><div class="metric-value" id="savings">—</div><div class="metric-foot" id="savings-detail">After annual maintenance costs</div></article>
+      </div>
+      <div class="scene-layout">
+        <section class="card scene-card">
+          <div class="card-heading"><div><h2>Your patch of sunlight <span class="scene-source">Manual / imported scene</span></h2><p>Edit or import surroundings to match your site.</p></div><div class="segmented"><button id="view-3d" class="active">3D view</button><button id="view-top">Top view</button></div></div>
+          <div id="scene-view" class="scene-view" role="img" aria-label="Interactive 3D model of the solar installation, surrounding buildings and trees">
+            <div class="scene-legend"><span><i class="legend-panel"></i> Your panels</span><span><i class="legend-sun"></i> Sun path</span></div>
+            <div class="compass"><b>N</b><svg viewBox="0 0 44 44"><path d="M22 7 29 30 22 26 15 30Z" fill="#355e4c"/><circle cx="22" cy="22" r="20" fill="none" stroke="#a9b3a6"/></svg></div>
+            <div class="scene-hint">Drag to orbit <span>·</span> Scroll to zoom <span>·</span> Click an object to edit</div>
+            <button id="reset-camera" class="scene-reset" title="Reset camera">⟲</button>
+          </div>
+          <div class="scene-map-bar"><div id="scene-map-summary">Example geometry · generate a scene for your location</div><button id="generate-scene">Generate from location ↗</button></div>
+          <div id="placement-warning" class="placement-warning" hidden><span>Some panel positions intersect a building. Adjust the façade, position or height before relying on the estimate.</span><button id="edit-placement">Edit placement ↗</button></div>
+          <div class="sun-controls"><div class="date-picker"><label for="scene-date">Explore a day</label><input id="scene-date" type="date"></div><div class="time-control"><div><label for="scene-time">Time of day</label><strong id="time-label">13:00</strong></div><input id="scene-time" type="range" min="0" max="23.75" step="0.25" value="13"><div class="range-labels"><span>00:00</span><span>12:00</span><span>24:00</span></div></div><button id="animate-sun" class="play-button" title="Animate daylight">▷</button></div>
+        </section>
+        <section class="card day-card"><div class="eyebrow">A DAY IN THE SUN</div><h2 id="day-heading">21 June</h2><div class="day-mode"><button class="active" data-mode="typical">Average weather</button><button data-mode="historical">Historical day</button></div><div class="day-number" id="day-energy">— <small>kWh</small></div><p class="day-caption" id="day-caption">Estimated generation for this day</p><div id="day-chart" class="day-chart"></div><div class="day-axis"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div><div class="day-facts"><div><span>Sun elevation</span><strong id="sun-elevation">—</strong></div><div><span>Panel in direct sun</span><strong id="sun-exposure">—</strong></div><div><span>Daily shading loss</span><strong id="daily-shade">—</strong></div></div><p class="tiny-note" id="day-note">Average weather is an estimate, not a forecast.</p></section>
+      </div>
+      <div class="charts-layout">
+        <section class="card monthly-card"><div class="card-heading"><div><h2>A year of solar</h2><p>How generation and household use change with the seasons.</p></div><button id="export-csv" class="text-button">Export CSV ↗</button></div><div class="chart-legend"><span><i style="background:#376b51"></i> Solar generation</span><span><i style="background:#c7d6c3"></i> Used at home</span><span><i class="legend-line"></i> Household use</span></div><div id="monthly-chart" class="monthly-chart"></div><div class="chart-footer"><span id="shade-summary">Including your scene’s shading</span><span>kWh / month</span></div></section>
+        <section class="card payback-card"><div class="card-heading"><div><h2>From sunlight to savings</h2><p>Net cumulative cash flow over your system’s life.</p></div><span class="pill" id="lifetime-pill">25 years</span></div><div id="payback-chart" class="payback-chart"></div><div class="finance-footer"><div><span>Initial investment</span><strong id="investment">—</strong></div><div><span>Lifetime net benefit</span><strong id="lifetime-savings">—</strong></div><div><span>Discounted value (NPV)</span><strong id="npv">—</strong></div></div></section>
+      </div>
+      <section class="historical-strip"><div class="history-icon">↶</div><div><h3>What about last year?</h3><p id="historical-label">Load historical weather to reconstruct last year’s generation.</p></div><div class="historical-result" id="historical-result">— <small>kWh</small></div><button class="button" id="history-button">View weather data ↗</button></section>
+      <footer class="main-footer"><span><i></i> Your scene and settings stay on this device.</span><button id="model-button">How the calculation works ↗</button></footer>
+      <div class="limitation-note">Planning estimates, not measured production. Weather, geometry, partial shading, foliage and your usage profile introduce uncertainty. The payback range is a sensitivity scenario, not a statistical confidence interval.</div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="model-dialog"><div class="dialog-heading"><h2>Inside the calculation</h2><button id="close-model" aria-label="Close explanation">×</button></div><div id="model-content"></div></dialog>
+</body>
+</html>
