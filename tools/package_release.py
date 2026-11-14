@@ -8,7 +8,7 @@ from tempfile import TemporaryDirectory
 ROOT = Path(__file__).resolve().parents[1]
 FILES = (
     '.dockerignore', '.env.example', '.gitignore', '.python-version',
-    'DEPLOYMENT.md', 'Dockerfile', 'Procfile', 'README.md',
+    'DEPLOYMENT.md', 'Dockerfile', 'LICENSE', 'Procfile', 'README.md',
     'cache_storage.py', 'download_jobs.py', 'gunicorn.conf.py', 'map_gateway.py',
     'map_jobs.py', 'public_app.py', 'pyproject.toml', 'requirements.txt',
     'server.py', 'share.py', 'source_registry.py', 'start.sh', 'transport.py', 'uv.lock', 'wsgi.py',

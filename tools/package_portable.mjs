@@ -37,8 +37,9 @@ function replace(html, pattern, replacement) {
   return html.replace(pattern, () => replacement);
 }
 
-const [template, styles, onboarding, license, app, worker] = await Promise.all([
-  read('index.html'), read('styles.css'), read('onboarding.css'), read('vendor/LICENSE'),
+const [template, styles, onboarding, license, vendorLicense, app, worker] = await Promise.all([
+  read('index.html'), read('styles.css'), read('onboarding.css'),
+  readFile(new URL('../LICENSE', import.meta.url), 'utf8'), read('vendor/LICENSE'),
   bundle('app.js', 'esm', [portableRuntime]), bundle('worker.js', 'iife'),
 ]);
 
@@ -61,7 +62,8 @@ html = replace(html, /<link rel="stylesheet" href="\/onboarding\.css">/, `<style
 html = replace(html, /<script type="importmap">[^<]*<\/script>\s*/, '');
 html = replace(html, /class="brand" href="\/"/, 'class="brand" href="#"');
 html = replace(html, /<script type="module" src="\/app\.js\?[^"\s]+"><\/script>/,
-  `<!-- Three.js and OrbitControls\n${license.trim()}\n-->\n  ` +
+  `<!-- Solstice solar planner\n${license.trim()}\n-->\n  ` +
+  `<!-- Three.js and OrbitControls\n${vendorLicense.trim()}\n-->\n  ` +
   `<script id="portable-worker" type="text/plain">\n${worker}\n</script>\n  ` +
   `<script type="module">${script}</script>`);
 

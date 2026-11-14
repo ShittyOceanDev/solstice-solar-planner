@@ -1,7 +1,7 @@
 FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8080 SOLSTICE_MODE=public SOLSTICE_CACHE_DIR=/tmp/solstice-cache
 WORKDIR /app
-COPY requirements.txt ./
+COPY LICENSE requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY server.py public_app.py wsgi.py gunicorn.conf.py map_gateway.py map_jobs.py download_jobs.py source_registry.py transport.py cache_storage.py ./
 COPY web/ ./web/

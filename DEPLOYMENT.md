@@ -76,4 +76,4 @@ Create the sanitized upload archive:
 python3 tools/package_release.py
 ```
 
-This writes `dist/solstice-public.tar.gz` with only the listed application files, assets and deployment instructions. Archive entries use relative paths, neutral ownership and fixed timestamps. The bundled third-party licence is included. The app source currently has no open-source licence.
+This writes `dist/solstice-public.tar.gz` with only the listed application files, assets and deployment instructions. Archive entries use relative paths, neutral ownership and fixed timestamps. The archive includes the MIT licences for Solstice and the bundled Three.js code.

@@ -105,6 +105,8 @@ Building polygons and courtyard holes are retained; their editable axes use an o
 
 ## Sources and licences
 
+Solstice is available under the MIT License. [Licence text](LICENSE)
+
 - [Open-Meteo historical weather documentation](https://open-meteo.com/en/docs/historical-weather-api). Attribution: Open-Meteo and Copernicus Climate Change Service / ECMWF. Weather data CC BY 4.0. The free service permits non-commercial use; use a suitable provider plan for commercial use.
 - [OpenStreetMap attribution and ODbL licence](https://www.openstreetmap.org/copyright). Map-derived project exports include attribution. [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API), [official read API](https://wiki.openstreetmap.org/wiki/API_v0.6), and [building floor-count conventions](https://wiki.openstreetmap.org/wiki/Key:building:levels). Height estimates are assumptions, not surveyed data.
 - [NOAA solar position equations](https://www.gml.noaa.gov/grad/solcalc/solareqns.PDF).
